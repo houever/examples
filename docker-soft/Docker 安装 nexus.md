@@ -126,7 +126,12 @@ DrepositoryId和settings.xml里配置的id一样
             <id>nexus-releases</id>  
             <name>maven-releases</name>  
            <url>http://192.168.52.131:8081/repository/maven-releases/</url>  
-        </repository>  
+        </repository>
+    	<snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>maven-snapshots</name>
+            <url>http://192.168.52.131:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
 </distributionManagement> 
 ````
 
