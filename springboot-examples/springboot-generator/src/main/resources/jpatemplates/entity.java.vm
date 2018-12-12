@@ -1,0 +1,112 @@
+package ${package.Entity};
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.Data;
+#if(${entityLombokModel})
+import lombok.Data;
+import lombok.experimental.Accessors;
+#end
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${entityLombokModel})
+@Data
+@Accessors(chain = true)
+#end
+#if(${superEntityClass})
+@TableName("${table.name}")
+public class ${entity} extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
+#elseif(${activeRecord})
+@Table(name="${table.name}")
+@Entity
+@Data
+public class ${entity}{
+#else
+public class ${entity} implements Serializable {
+#end
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})
+#set($keyPropertyName=${field.propertyName})
+#end
+#if("$!field.comment" != "")
+    /**
+     * ${field.comment}
+     */
+#end
+#if(${field.keyFlag})
+## 主键
+#if(${field.keyIdentityFlag})
+	@Id
+	@GeneratedValue
+#elseif(${field.convert})
+    @TableId("${field.name}")
+#end
+## 普通字段
+#elseif(${field.fill})
+## -----   存在字段填充设置   -----
+#if(${field.convert})
+	@Column(name = "${field.name}", fill = FieldFill.${field.fill})
+#else
+	@Column(name = "${field.name}")
+#end
+#elseif(${field.convert})
+	@Column(name = "${field.name}")
+#end
+## 乐观锁注解
+#if(${versionFieldName}==${field.name})
+	@Version
+#end
+## 逻辑删除注解
+#if(${logicDeleteFieldName}==${field.name})
+    @TableLogic
+#end
+	private ${field.propertyType} ${field.propertyName};
+#end
+## ----------  END 字段循环遍历  ----------
+
+#if(!${entityLombokModel})
+#foreach($field in ${table.fields})
+#if(${field.propertyType.equals("boolean")})
+#set($getprefix="is")
+#else
+#set($getprefix="get")
+#end
+
+	public ${field.propertyType} ${getprefix}${field.capitalName}() {
+		return ${field.propertyName};
+	}
+## ----------  开始 字段set get 方法循环遍历  ----------
+#end
+#end
+
+#if(${entityColumnConstant})
+#foreach($field in ${table.fields})
+	public static final String ${field.name.toUpperCase()} = "${field.name}";
+
+#end
+#end
+#if(!${entityLombokModel})
+	@Override
+	public String toString() {
+		return "${entity}{" +
+#foreach($field in ${table.fields})
+#if($!{velocityCount}==1)
+			"${field.propertyName}=" + ${field.propertyName} +
+#else
+			", ${field.propertyName}=" + ${field.propertyName} +
+#end
+#end
+			"}";
+	}
+#end
+}
