@@ -73,6 +73,7 @@ cd plugiins
 
 ```shell
 mkdir ik
+cd ik
 ```
 
 ```shell
@@ -100,6 +101,55 @@ ingest-geoip
 ingest-user-agent
 [root@f33b7e503ef9 ik]# exit
 ````
+
+##### 安装hanlp插件
+
+github:<https://github.com/shikeio/elasticsearch-analysis-hanlp>
+
+````shell
+cd plugins
+````
+
+````shell
+mkdir analysis-hanlp
+cd analysis-hanlp
+````
+
+````shell
+wget https://github.com/shikeio/elasticsearch-analysis-hanlp/releases/download/6.4.2/analysis-hanlp-6.4.2.zip
+````
+
+````shell
+unzip analysis-hanlp-6.4.2.zip
+rm -rf analysis-hanlp-6.4.2.zip
+````
+
+```shell
+vi ../../config/jvm.options
+```
+
+````shell
+-Djava.security.policy=file://usr/share/elasticsearch/plugins/analysis-hanlp/plugin-security.policy
+## heap dumps
+````
+
+````shell
+docker restart elasticsearch
+````
+
+1
+
+`````shell
+
+`````
+
+1
+
+
+
+
+
+
 
 ##### 操作kibana
 
