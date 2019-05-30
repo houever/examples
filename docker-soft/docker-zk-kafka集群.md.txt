@@ -68,7 +68,7 @@ services:
       ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=0.0.0.0:2888:3888
     networks:
       - kafka
-	depends_on:
+    depends_on:
       - zoo1
 	  - zoo2
   kafka1:
