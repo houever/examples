@@ -87,6 +87,10 @@ services:
     container_name: kafka1
     ports:
       - 9092:9092
+    links:
+      - zoo1
+      - zoo2
+      - zoo3
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka1
       KAFKA_ADVERTISED_PORT: 9092
@@ -107,6 +111,10 @@ services:
     container_name: kafka2
     ports:
       - 9093:9093
+    links:
+      - zoo1
+      - zoo2
+      - zoo3
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka2
       KAFKA_ADVERTISED_PORT: 9093
@@ -132,6 +140,10 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: kafka3
       KAFKA_ADVERTISED_PORT: 9094
       KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+    links:
+      - zoo1
+      - zoo2
+      - zoo3
     volumes:
       - ./kafka3/logs:/kafka
     networks:
