@@ -1,6 +1,8 @@
 package com.july.study.controller;
 
-import sun.applet.Main;
+import com.july.study.model.Users;
+
+import java.util.*;
 
 public class ThreadTest {
     public static void main(String[] args) {
@@ -14,6 +16,9 @@ public class ThreadTest {
                 System.out.println("我是子线程");
             }
         }).start();
+        Users u1 = new Users();
+        Users u2 = new Users();
 
+        System.out.println(u1.equals(u2));
     }
 }

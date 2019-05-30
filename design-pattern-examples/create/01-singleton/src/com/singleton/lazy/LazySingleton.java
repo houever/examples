@@ -17,8 +17,8 @@ public class LazySingleton {
         if(lazySingleton == null){
 
             lazySingleton = new LazySingleton();
-
         }
+
         return lazySingleton;
     }
 
