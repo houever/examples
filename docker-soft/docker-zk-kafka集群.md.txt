@@ -88,8 +88,8 @@ services:
       - kafka
 	depends_on:
       - zoo1
-	  - zoo2
-	  - zoo3
+      - zoo2
+      - zoo3
 
   kafka2:
     image: wurstmeister/kafka
@@ -108,9 +108,9 @@ services:
       - kafka
 	depends_on:
       - zoo1
-	  - zoo2
-	  - zoo3
-	  - kafka1
+      - zoo2
+      - zoo3
+      - kafka1
 
   kafka3:
     image: wurstmeister/kafka
@@ -129,10 +129,10 @@ services:
       - kafka
     depends_on:
       - zoo1
-	  - zoo2
-	  - zoo3
-	  - kafka1
-	  - kafka2
+      - zoo2
+      - zoo3
+      - kafka1
+      - kafka2
       
   kafka-manager:
     image: hlebalbau/kafka-manager
