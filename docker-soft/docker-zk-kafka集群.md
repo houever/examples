@@ -27,6 +27,9 @@ services:
     volumes:
       - "./zoo1/data:/data"
       - "./zoo1/datalog:/datalog"
+    links:
+      - zoo2
+      - zoo3
     environment:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
@@ -44,6 +47,9 @@ services:
     volumes:
       - "./zoo2/data:/data"
       - "./zoo2/datalog:/datalog"
+    links:
+      - zoo1
+      - zoo3
     environment:
       ZOO_MY_ID: 2
       ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zoo3:2888:3888
@@ -63,6 +69,9 @@ services:
     volumes:
       - "./zoo3/data:/data"
       - "./zoo3/datalog:/datalog"
+    links:
+      - zoo1
+      - zoo2
     environment:
       ZOO_MY_ID: 3
       ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=0.0.0.0:2888:3888
