@@ -16,7 +16,7 @@ public class MySingleton {
 
     }
 
-    public static MySingleton getInstance(){
+    private static MySingleton getInstance(){
 
         return MySingletonInstance.SINGLETON;
 

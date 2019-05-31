@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cx-admin/cx-admin.iml" filepath="$PROJECT_DIR$/cx-admin/cx-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-activiti/springboot-activiti.iml" filepath="$PROJECT_DIR$/springboot-activiti/springboot-activiti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-docker/springboot-docker.iml" filepath="$PROJECT_DIR$/springboot-docker/springboot-docker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-es/springboot-es.iml" filepath="$PROJECT_DIR$/springboot-es/springboot-es.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/springboot-examples.iml" filepath="$PROJECT_DIR$/.idea/springboot-examples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-generator/springboot-generator.iml" filepath="$PROJECT_DIR$/springboot-generator/springboot-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-jpa/springboot-jpa.iml" filepath="$PROJECT_DIR$/springboot-jpa/springboot-jpa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-mp/springboot-mp.iml" filepath="$PROJECT_DIR$/springboot-mp/springboot-mp.iml" />
+    </modules>
+  </component>
+</project>
