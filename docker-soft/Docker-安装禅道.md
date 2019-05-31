@@ -6,9 +6,10 @@ services:
   zentao:
     image: idoop/zentao:latest
     container_name: zentao
-    privileged=true
+    privileged: true
     ports:
       - "80:80"
+      - "3306:3306"
     volumes:
       - /data/zbox/:/opt/zbox/
     environment:
