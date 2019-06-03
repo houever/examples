@@ -17,78 +17,14 @@ version: '3.4'
 
 services:
   zoo1:
-    image: zookeeper
-    restart: always
+    image: wurstmeister/zookeeper
+    restart: unless-stopped
     hostname: zoo1
-    container_name: zoo1
-    privileged: true
     ports:
-      - 2181:2181
-      - 2888:2888
-      - 3888:3888
-    expose:
-      - 2181
-      - 2888
-      - 3888
-    volumes:
-      - "./zoo1/data:/data"
-      - "./zoo1/datalog:/datalog"
-    environment:
-      ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=0.0.0.0:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
-    networks:
-      - kafka
-
-  zoo2:
-    image: zookeeper
-    privileged: true
-    restart: always
-    hostname: zoo2
-    container_name: zoo2
-    ports:
-      - 2182:2181
-      - 2888:2888
-      - 3888:3888
-    expose:
-      - 2182
-      - 2888
-      - 3888
-    volumes:
-      - "./zoo2/data:/data"
-      - "./zoo2/datalog:/datalog"
-    environment:
-      ZOO_MY_ID: 2
-      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zoo3:2888:3888
-    networks:
-      - kafka
-    depends_on:
-      - zoo1
-
-  zoo3:
-    image: zookeeper
-    privileged: true
-    restart: always
-    hostname: zoo3
-    container_name: zoo3
-    ports:
-      - 2183:2181
-      - 2888:2888
-      - 3888:3888
-    expose:
-      - 2183
-      - 2888
-      - 3888
-    volumes:
-      - "./zoo3/data:/data"
-      - "./zoo3/datalog:/datalog"
-    environment:
-      ZOO_MY_ID: 3
-      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=0.0.0.0:2888:3888
-    networks:
-      - kafka
-    depends_on:
-      - zoo1
-      - zoo2
+      - "2181:2181"
+    container_name: zookeeper
+    extra_hosts:
+      - "zoo1:10.1.70.39"
   kafka1:
     image: wurstmeister/kafka
     restart: always
@@ -98,20 +34,18 @@ services:
       - 9092:9092
     links:
       - zoo1
-      - zoo2
-      - zoo3
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka1
       KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+   extra_hosts:
+      - "kafka1:10.1.70.39"
     volumes:
       - ./kafka1/logs:/kafka
-    networks:
-      - kafka
     depends_on:
       - zoo1
-      - zoo2
-      - zoo3
 
   kafka2:
     image: wurstmeister/kafka
@@ -119,23 +53,20 @@ services:
     hostname: kafka2
     container_name: kafka2
     ports:
-      - 9093:9093
+      - 9093:9092
     links:
       - zoo1
-      - zoo2
-      - zoo3
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka2
       KAFKA_ADVERTISED_PORT: 9093
-      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181
+      KAFKA_BROKER_ID: 2
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    extra_hosts:
+      - "kafka2:10.1.70.39"
     volumes:
       - ./kafka2/logs:/kafka
-    networks:
-      - kafka
     depends_on:
-      - zoo1
-      - zoo2
-      - zoo3
       - kafka1
 
   kafka3:
@@ -144,23 +75,20 @@ services:
     hostname: kafka3
     container_name: kafka3
     ports:
-    - 9094:9094
+    - 9094:9092
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka3
       KAFKA_ADVERTISED_PORT: 9094
-      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181
+      KAFKA_BROKER_ID: 3
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    extra_hosts:
+      - "kafka3:10.1.70.39"
     links:
       - zoo1
-      - zoo2
-      - zoo3
     volumes:
       - ./kafka3/logs:/kafka
-    networks:
-      - kafka
     depends_on:
-      - zoo1
-      - zoo2
-      - zoo3
       - kafka1
       - kafka2
       
@@ -177,12 +105,6 @@ services:
       KAFKA_MANAGER_PASSWORD: "123456"
     container_name: kafka-manager  
     command: -Dpidfile.path=/dev/null
-    networks:
-      - kafka
-networks:
-  kafka:
-    external:
-      name: kafka
 ```
 
 #### kafka集群的docker-compose.yml
