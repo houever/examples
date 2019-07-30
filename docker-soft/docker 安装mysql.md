@@ -81,7 +81,7 @@ default-character=utf8
 
 
 ````
-docker run -it -d -p 3306:3306 --name mysql -v $PWD/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf -v $PWD/mysql/data:/var/lib/mysql -v $PWD/mysql/logs:/var/log/mysql -e MYSQL_ROOT_PASSWORD=123456 --restart always --privileged mysql:5.7.21
+docker run -p 3306:3306 --name db -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/mysql_data -e MYSQL_ROOT_PASSWORD=123456 -d --privileged mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default_time-zone='+8:00' --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 ````
 
 进入容器
