@@ -23,36 +23,52 @@ services:
 
 ````yaml
 version: '3.1'
+
 services:
   zoo1:
-    image: zookeeper
+    image: zookeeper:3.4.11
     restart: always
     hostname: zoo1
+    container_name: zookeeper_1 
+    privileged: true
     ports:
       - 2181:2181
+    volumes:
+      - ./zoo1/data:/data
+      - ./zoo1/datalog:/datalog
     environment:
       ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=0.0.0.0:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
 
   zoo2:
-    image: zookeeper
+    image: zookeeper:3.4.11
     restart: always
     hostname: zoo2
+    container_name: zookeeper_2
+    privileged: true
     ports:
       - 2182:2181
+    volumes:
+      - ./zoo2/data:/data
+      - ./zoo2/datalog:/datalog
     environment:
       ZOO_MY_ID: 2
-      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zoo3:2888:3888
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
 
   zoo3:
-    image: zookeeper
+    image: zookeeper:3.4.11
     restart: always
     hostname: zoo3
+    container_name: zookeeper_3
+    privileged: true
     ports:
       - 2183:2181
+    volumes:
+      - ./zoo3/data:/data
+      - ./zoo3/datalog:/datalog
     environment:
       ZOO_MY_ID: 3
-      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=0.0.0.0:2888:3888
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
 ````
 
 ### `ZOO_TICK_TIME`
